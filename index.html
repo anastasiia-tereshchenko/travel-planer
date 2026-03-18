@@ -15,7 +15,8 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
+            padding-bottom: 80px;
         }
 
         .container {
@@ -26,13 +27,18 @@
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 1.8em;
+            margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
         }
 
         .tabs {
@@ -81,9 +87,9 @@
         .content {
             background: white;
             border-radius: 15px;
-            padding: 30px;
+            padding: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            min-height: 500px;
+            min-height: 400px;
             margin-bottom: 80px;
         }
 
@@ -97,21 +103,22 @@
 
         .section h2 {
             color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-size: 1.4em;
         }
 
         .add-btn {
             background: #667eea;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            width: 100%;
         }
 
         .add-btn:hover {
@@ -122,9 +129,9 @@
 
         .item {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 12px;
             border-radius: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-left: 4px solid #667eea;
             transition: all 0.3s;
             cursor: move;
@@ -132,7 +139,6 @@
 
         .item:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateX(5px);
         }
 
         .item.dragging {
@@ -177,11 +183,11 @@
         }
 
         .edit-btn, .delete-btn {
-            padding: 6px 12px;
+            padding: 6px 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             transition: all 0.3s;
         }
 
@@ -426,14 +432,40 @@
         }
 
         .sync-controls {
-            display: flex;
+            display: none; /* Сховано на мобільному - відкривається через меню */
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             align-items: center;
             background: #f8f9fa;
             padding: 15px;
             border-radius: 10px;
             flex-wrap: wrap;
+        }
+
+        .sync-controls.active {
+            display: flex;
+        }
+
+        .menu-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:active {
+            transform: scale(0.95);
         }
 
         .import-alt-btn {
@@ -723,13 +755,22 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 5px;
+                padding-bottom: 70px;
+            }
+
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.5em;
+            }
+
+            .header p {
+                font-size: 0.85em;
             }
 
             .content {
-                padding: 20px;
-                margin-bottom: 80px;
+                padding: 12px;
+                margin-bottom: 70px;
             }
 
             .tab {
@@ -741,8 +782,16 @@
                 font-size: 20px;
             }
 
-            body {
-                padding-bottom: 20px;
+            .item {
+                padding: 10px;
+            }
+
+            .item-title {
+                font-size: 1em;
+            }
+
+            .section h2 {
+                font-size: 1.2em;
             }
         }
     </style>
@@ -754,7 +803,9 @@
             <p>Ваша подорож в одному місці</p>
         </div>
 
-        <div class="sync-controls">
+        <button class="menu-btn" onclick="toggleSyncMenu()">⋮</button>
+
+        <div class="sync-controls" id="sync-controls">
             <button class="sync-btn export" onclick="exportData()">
                 <span>💾</span>
                 <span>Експорт даних</span>
@@ -1863,6 +1914,12 @@
 
         // Ініціалізація
         loadData();
+        
+        // Перемикання меню синхронізації
+        function toggleSyncMenu() {
+            const menu = document.getElementById('sync-controls');
+            menu.classList.toggle('active');
+        }
     </script>
 </body>
 </html>
