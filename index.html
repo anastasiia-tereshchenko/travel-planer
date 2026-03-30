@@ -1588,7 +1588,7 @@
                     <div class="item-details">
                         ${item.time ? `🕐 ${item.time}<br>` : ''}
                         ${item.notes ? `📝 ${item.notes}<br>` : ''}
-                        ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" class="map-link">📍 Відкрити на Google Maps</a>` : ''}
+                        ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="map-link">📍 Відкрити на Google Maps</a>` : ''}
                     </div>
                 </div>
             `;
@@ -1837,7 +1837,7 @@
                         ${item.payment ? `💰 Залишилось сплатити: ${item.payment}` : ''}
                         ${item.paymentDate ? ` (до ${formatDate(item.paymentDate)})` : ''}<br>
                         ${item.notes ? `📝 ${item.notes}<br>` : ''}
-                        ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" class="map-link">📍 Відкрити на Google Maps</a>` : ''}
+                        ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="map-link">📍 Відкрити на Google Maps</a>` : ''}
                     </div>
                 </div>
             `;
