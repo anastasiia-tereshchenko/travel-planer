@@ -1569,7 +1569,7 @@
             container.innerHTML = items.map((item, index) => {
                 const category = categoryLabels[item.category] || categoryLabels['travel'];
                 const mapsUrl = item.address 
-                    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.address)}`
+                    ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(item.address)}`
                     : null;
                 
                 return `
@@ -1798,7 +1798,7 @@
             list.innerHTML = sorted.map((item, index) => {
                 const category = categoryLabels[item.category || 'airbnb'];
                 const mapsUrl = item.address 
-                    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.address)}`
+                    ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(item.address)}`
                     : null;
                 
                 // Перевірити чи потрібна оплата скоро
