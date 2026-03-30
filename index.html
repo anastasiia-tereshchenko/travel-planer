@@ -423,12 +423,23 @@
             background: #f0f2ff;
             border-radius: 5px;
             transition: all 0.3s;
+            pointer-events: auto;
+            cursor: pointer;
+            user-select: none;
         }
 
         .map-link:hover {
             background: #667eea;
             color: white;
             transform: translateX(3px);
+        }
+
+        .map-link:active {
+            transform: scale(0.95);
+        }
+
+        .item-controls, .map-link {
+            -webkit-user-drag: none;
         }
 
         .sync-controls {
@@ -1568,9 +1579,17 @@
             
             container.innerHTML = items.map((item, index) => {
                 const category = categoryLabels[item.category] || categoryLabels['travel'];
-                const mapsUrl = item.address 
-                    ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(item.address)}`
-                    : null;
+                // Перевірити чи адреса вже є посиланням
+                let mapsUrl = null;
+                if (item.address) {
+                    if (item.address.startsWith('http://') || item.address.startsWith('https://')) {
+                        // Вже посилання - використати як є
+                        mapsUrl = item.address;
+                    } else {
+                        // Звичайна адреса - створити посилання
+                        mapsUrl = `https://www.google.com/maps/place/${encodeURIComponent(item.address)}`;
+                    }
+                }
                 
                 return `
                 <div class="item" draggable="true" data-id="${item.id}" data-index="${index}">
@@ -1626,6 +1645,13 @@
         }
 
         function handleDragStart(e) {
+            // Не дозволяти drag якщо клікнули на посилання або кнопку
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || 
+                e.target.closest('a') || e.target.closest('button')) {
+                e.preventDefault();
+                return false;
+            }
+            
             draggedItem = this;
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
@@ -1718,6 +1744,13 @@
         }
 
         function handleDragStartHotel(e) {
+            // Не дозволяти drag якщо клікнули на посилання або кнопку
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || 
+                e.target.closest('a') || e.target.closest('button')) {
+                e.preventDefault();
+                return false;
+            }
+            
             draggedItem = this;
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
@@ -1797,9 +1830,17 @@
             
             list.innerHTML = sorted.map((item, index) => {
                 const category = categoryLabels[item.category || 'airbnb'];
-                const mapsUrl = item.address 
-                    ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(item.address)}`
-                    : null;
+                // Перевірити чи адреса вже є посиланням
+                let mapsUrl = null;
+                if (item.address) {
+                    if (item.address.startsWith('http://') || item.address.startsWith('https://')) {
+                        // Вже посилання - використати як є
+                        mapsUrl = item.address;
+                    } else {
+                        // Звичайна адреса - створити посилання
+                        mapsUrl = `https://www.google.com/maps/place/${encodeURIComponent(item.address)}`;
+                    }
+                }
                 
                 // Перевірити чи потрібна оплата скоро
                 let paymentWarning = '';
